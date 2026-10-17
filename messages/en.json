@@ -1,0 +1,321 @@
+{
+  "meta": {
+    "title": "La Couvrière · Mountain lodge in Cilaos, Réunion Island",
+    "description": "Wooden lodge in the Cirque de Cilaos at 1,200 m. Book direct with no commission and a secure online deposit."
+  },
+  "nav": {
+    "gite": "The lodge",
+    "availability": "Availability",
+    "hauts": "The highlands",
+    "infos": "Practical info",
+    "book": "Book now",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "home": "La Couvrière — home",
+    "primary": "Main navigation"
+  },
+  "locale": {
+    "label": "Language",
+    "fr": "FR",
+    "en": "EN",
+    "switchTo": "Switch to French"
+  },
+  "hero": {
+    "tag": "Mountain lodge · Cirque de Cilaos · 1,200 m",
+    "title": "Sleep in the highlands, between clouds and tamarind trees.",
+    "text": "A wooden lodge opening onto the cirque, steps from the trails. Book direct, no commission, secure online deposit.",
+    "ctaPrimary": "Check availability",
+    "ctaSecondary": "Discover the lodge",
+    "illustrationAlt": "Illustration of the Cirque de Cilaos mountains at sunrise"
+  },
+  "stats": {
+    "guests": "{count} guests",
+    "guestsLabel": "capacity",
+    "rooms": "{count} bedrooms",
+    "roomsLabel": "one on a mezzanine",
+    "view": "180° view",
+    "viewLabel": "over the cirque",
+    "price": "{price} per night",
+    "priceLabel": "cleaning not included"
+  },
+  "gite": {
+    "eyebrow": "The lodge",
+    "title": "Timber, a wood stove, and the Piton des Neiges when you wake.",
+    "text": "A 65 m² chalet built entirely in Japanese cedar, insulated for cool highland nights, designed for four people who want to hike by day and settle in by night.",
+    "cards": {
+      "chalet": {
+        "title": "The chalet",
+        "text": "Two bedrooms, a large living room under the rafters, a wood stove for 12 °C evenings and an open kitchen to cook the village lentils."
+      },
+      "terrasse": {
+        "title": "The terrace",
+        "text": "Facing west, straight at the Piton des Neiges. Coffee as the mist lifts, drinks at sunset: the two best moments of the day happen here."
+      },
+      "jardin": {
+        "title": "The garden",
+        "text": "Highland tamarinds, tree ferns and a patch of herbs. A hammock, a barbecue, and the trailhead thirty metres from the gate."
+      }
+    },
+    "amenitiesTitle": "Amenities",
+    "amenities": {
+      "wifi": "Fibre Wi-Fi",
+      "parking": "Private parking",
+      "stove": "Wood stove",
+      "kitchen": "Fully equipped kitchen",
+      "linen": "Linen provided",
+      "pets": "Pets welcome"
+    },
+    "photoAlt": {
+      "chalet": "The wooden chalet at La Couvrière",
+      "terrasse": "The terrace facing the Piton des Neiges",
+      "jardin": "The garden and tamarind trees"
+    }
+  },
+  "availability": {
+    "eyebrow": "Availability & booking",
+    "title": "Pick your dates, pay the deposit, you're booked.",
+    "text": "The calendar updates in real time. Minimum stay: {minNights} nights.",
+    "legendLabel": "Legend",
+    "legend": {
+      "free": "Available",
+      "booked": "Booked",
+      "past": "Past",
+      "selected": "Selected",
+      "range": "Your stay"
+    },
+    "prevMonth": "Previous month",
+    "nextMonth": "Next month",
+    "weekdays": ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+    "dayLabel": {
+      "free": "{date}, available",
+      "booked": "{date}, booked",
+      "past": "{date}, past date",
+      "selected": "{date}, selected",
+      "range": "{date}, within your stay"
+    },
+    "loading": "Loading availability…",
+    "loadError": "Could not load availability. Please try again in a moment.",
+    "hint": {
+      "pickArrival": "Click your arrival date.",
+      "pickDeparture": "Now click your departure date ({minNights} nights minimum).",
+      "ready": "Your dates are set. You can pay the deposit."
+    },
+    "summary": {
+      "title": "Your stay",
+      "arrival": "Check-in",
+      "departure": "Check-out",
+      "notSelected": "—",
+      "nights": "{count, plural, one {# night} other {# nights}} × {price}",
+      "cleaning": "Cleaning",
+      "total": "Stay total",
+      "deposit": "{percent}% deposit",
+      "depositNow": "due now",
+      "pay": "Pay the deposit",
+      "payDisabled": "Choose your dates to continue",
+      "secure": "Secure card payment. The balance is paid on arrival; free cancellation up to {days} days before.",
+      "clear": "Clear dates"
+    }
+  },
+  "hauts": {
+    "eyebrow": "Around the lodge",
+    "title": "The highlands, life-size.",
+    "text": "Cilaos is the perfect base camp: the big summits start at your door, the thermal baths are in the village, and the food has character.",
+    "cards": {
+      "piton": {
+        "title": "Piton des Neiges",
+        "distance": "From the lodge",
+        "text": "The roof of the Indian Ocean (3,071 m). Trailhead at Le Bloc, 15 minutes on foot; overnight at the Caverne Dufour hut and sunrise at the summit."
+      },
+      "thermes": {
+        "title": "Cilaos thermal baths",
+        "distance": "15 min walk",
+        "text": "Naturally sparkling hot springs, baths, jets and massages. The best day-after-a-hike there is."
+      },
+      "roche": {
+        "title": "Roche Merveilleuse",
+        "distance": "30 min walk",
+        "text": "The lookout over the whole cirque and the village. A cedar-forest trail, best at dawn before the mist rolls in."
+      },
+      "lentilles": {
+        "title": "Cilaos lentils & wine",
+        "distance": "In the village",
+        "text": "Lentils grown on terraces, Cilaos wine, embroidery. Sunday morning market, producers along the road to Bras-Sec."
+      }
+    }
+  },
+  "infos": {
+    "eyebrow": "Practical info",
+    "title": "Everything you need to know before heading up.",
+    "items": {
+      "checkin": {
+        "title": "Check-in from {time}",
+        "text": "Secure key box, code sent by SMS the day before. Late arrival is fine."
+      },
+      "checkout": {
+        "title": "Check-out before {time}",
+        "text": "Leave the dishes clean and the keys in the box; we handle the rest."
+      },
+      "deposit": {
+        "title": "{percent}% deposit at booking",
+        "text": "The balance is paid on arrival, in cash or by card. Tourist tax included."
+      },
+      "cancellation": {
+        "title": "Free cancellation up to {days} days before",
+        "text": "Deposit fully refunded. After that, the deposit is kept except in cases of force majeure."
+      }
+    }
+  },
+  "footer": {
+    "tagline": "Mountain lodge in the Cirque de Cilaos, 1,200 m above sea level.",
+    "contact": "Contact",
+    "navigation": "Navigation",
+    "legal": "Legal notice",
+    "terms": "Booking terms",
+    "rights": "© {year} La Couvrière. All rights reserved."
+  },
+  "reserve": {
+    "steps": {
+      "dates": "Dates",
+      "deposit": "Deposit",
+      "confirmation": "Confirmation"
+    },
+    "stepLabel": "Step {current} of {total}",
+    "title": "One deposit and it's yours.",
+    "text": "Payment happens on a secure Stripe page. We never store your card details.",
+    "backToDates": "Change dates",
+    "summary": {
+      "title": "Your stay",
+      "arrival": "Check-in",
+      "departure": "Check-out",
+      "nights": "{count, plural, one {# night} other {# nights}} × {price}",
+      "cleaning": "Cleaning",
+      "total": "Stay total",
+      "deposit": "{percent}% deposit",
+      "balance": "Balance on arrival"
+    },
+    "form": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "phone": "Phone",
+      "terms": "I have read and accept the <link>booking terms</link>.",
+      "pay": "Pay the {amount} deposit",
+      "paying": "Redirecting to payment…",
+      "required": "This field is required.",
+      "invalidEmail": "Invalid email address.",
+      "acceptTerms": "Please accept the booking terms."
+    },
+    "cancelled": {
+      "title": "Payment cancelled",
+      "text": "Nothing was charged. Your dates are not booked; you can try again whenever you like."
+    },
+    "errors": {
+      "invalidDates": "These dates are not valid. Go back to the calendar to choose them again.",
+      "unavailable": "Sorry, these dates were just booked. Please choose other dates.",
+      "generic": "Something went wrong. Please try again in a moment or contact us."
+    }
+  },
+  "confirmation": {
+    "eyebrow": "Confirmation",
+    "title": "You're booked. See you in the highlands!",
+    "text": "Your deposit has been received. A confirmation email is on its way to {email}.",
+    "pendingTitle": "Payment being validated",
+    "pendingText": "We're waiting for the bank's confirmation. You'll get an email as soon as the booking is validated.",
+    "reference": "Reference",
+    "arrival": "Check-in",
+    "departure": "Check-out",
+    "nights": "{count, plural, one {# night} other {# nights}}",
+    "paid": "Deposit paid",
+    "balance": "Balance on arrival",
+    "next": "What's next?",
+    "nextItems": [
+      "You'll receive the key-box code by SMS the day before you arrive.",
+      "Check-in from {checkIn}, check-out before {checkOut}.",
+      "Need to change something? Just reply to the confirmation email."
+    ],
+    "backHome": "Back to home",
+    "notFound": "We can't find this booking. If you were charged, contact us with the email you used to pay."
+  },
+  "admin": {
+    "title": "Admin",
+    "login": {
+      "title": "Owner access",
+      "password": "Password",
+      "submit": "Sign in",
+      "error": "Incorrect password."
+    },
+    "logout": "Sign out",
+    "bookings": {
+      "title": "Bookings",
+      "empty": "No bookings yet.",
+      "guest": "Guest",
+      "dates": "Dates",
+      "nights": "Nights",
+      "total": "Total",
+      "deposit": "Deposit",
+      "status": "Status",
+      "created": "Created",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "statuses": {
+        "pending": "Pending",
+        "confirmed": "Confirmed",
+        "cancelled": "Cancelled"
+      }
+    },
+    "blocked": {
+      "title": "Blocked dates",
+      "text": "Block nights for maintenance, family or offline bookings. The end date is excluded (departure day).",
+      "start": "From (first night)",
+      "end": "To (departure day)",
+      "reason": "Reason",
+      "add": "Block these dates",
+      "remove": "Unblock",
+      "empty": "No blocked dates.",
+      "error": "Invalid dates: the end must be after the start."
+    }
+  },
+  "legal": {
+    "title": "Legal notice",
+    "sections": [
+      {
+        "title": "Site publisher",
+        "text": "La Couvrière — [Owner name], 12 chemin des Tamarins, 97413 Cilaos, Réunion Island. Phone: +262 692 00 00 00. Email: contact@lacouvriere.re. SIRET: [to complete]."
+      },
+      {
+        "title": "Hosting",
+        "text": "Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, USA."
+      },
+      {
+        "title": "Personal data",
+        "text": "Information collected when booking (name, email, phone, dates) is used solely to manage your stay. It is never sold. Payments are processed by Stripe; we store no card data. You can ask us to delete your data at any time by email."
+      }
+    ]
+  },
+  "terms": {
+    "title": "Booking terms",
+    "sections": [
+      {
+        "title": "Booking and deposit",
+        "text": "A booking is confirmed on receipt of a deposit of {percent}% of the total stay, paid by card via Stripe. The balance is due on arrival."
+      },
+      {
+        "title": "Cancellation",
+        "text": "Free cancellation up to {days} days before the arrival date: the deposit is fully refunded. After that, the deposit is kept, except in duly justified cases of force majeure."
+      },
+      {
+        "title": "Stay",
+        "text": "Check-in from {checkIn}, check-out before {checkOut}. Maximum capacity: {guests} people. Pets welcome on request. The lodge is non-smoking."
+      },
+      {
+        "title": "Liability",
+        "text": "The guest is responsible for any damage caused during the stay. Proof of holiday rental insurance may be requested."
+      }
+    ]
+  },
+  "notFound": {
+    "title": "Page not found",
+    "text": "This page must have gone hiking.",
+    "back": "Back to home"
+  }
+}

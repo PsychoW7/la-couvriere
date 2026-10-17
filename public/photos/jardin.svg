@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Placeholder photo : le jardin">
+  <rect width="800" height="600" fill="#5BBF7A"/>
+  <path d="M0 380 L800 320 L800 600 L0 600Z" fill="#2E8C5E"/>
+  <path d="M0 470 L800 430 L800 600 L0 600Z" fill="#1F6F4A"/>
+  <g fill="#0E2A20">
+    <path d="M150 460 C120 380 100 300 150 220 C200 300 180 380 150 460Z"/>
+    <path d="M150 460 C90 420 60 340 80 260 C140 300 160 380 150 460Z" opacity="0.8"/>
+    <path d="M150 460 C210 420 240 340 220 260 C160 300 140 380 150 460Z" opacity="0.8"/>
+    <rect x="144" y="440" width="12" height="100"/>
+    <path d="M640 440 C600 360 580 280 640 200 C700 280 680 360 640 440Z"/>
+    <path d="M640 440 C570 400 540 320 560 240 C630 280 650 360 640 440Z" opacity="0.8"/>
+    <path d="M640 440 C710 400 740 320 720 240 C650 280 630 360 640 440Z" opacity="0.8"/>
+    <rect x="634" y="420" width="12" height="120"/>
+  </g>
+  <text x="400" y="560" font-family="system-ui, sans-serif" font-size="22" fill="#0E2A20" text-anchor="middle" opacity="0.8">photos/jardin.svg — remplacez par votre photo</text>
+</svg>

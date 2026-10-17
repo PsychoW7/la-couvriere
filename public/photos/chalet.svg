@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Placeholder photo : le chalet">
+  <rect width="800" height="600" fill="#1F6F4A"/>
+  <path d="M0 420 L160 300 L320 390 L480 280 L640 370 L800 300 L800 600 L0 600Z" fill="#143A2C"/>
+  <path d="M0 500 L200 420 L400 480 L600 400 L800 460 L800 600 L0 600Z" fill="#0E2A20"/>
+  <g transform="translate(300 330)">
+    <path d="M0 110 L100 0 L200 110Z" fill="#F2A65A"/>
+    <rect x="25" y="110" width="150" height="110" fill="#E8F0EA"/>
+    <rect x="85" y="150" width="30" height="70" fill="#0E2A20"/>
+    <rect x="40" y="130" width="30" height="30" fill="#5BBF7A"/>
+    <rect x="130" y="130" width="30" height="30" fill="#5BBF7A"/>
+  </g>
+  <text x="400" y="560" font-family="system-ui, sans-serif" font-size="22" fill="#E8F0EA" text-anchor="middle" opacity="0.8">photos/chalet.svg — remplacez par votre photo</text>
+</svg>

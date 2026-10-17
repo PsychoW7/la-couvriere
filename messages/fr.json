@@ -1,0 +1,321 @@
+{
+  "meta": {
+    "title": "La Couvrière · Gîte de montagne à Cilaos, La Réunion",
+    "description": "Gîte en bois dans le Cirque de Cilaos, à 1 200 m. Réservation directe sans commission, acompte sécurisé en ligne."
+  },
+  "nav": {
+    "gite": "Le gîte",
+    "availability": "Disponibilités",
+    "hauts": "Les Hauts",
+    "infos": "Infos pratiques",
+    "book": "Réserver",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "home": "La Couvrière — accueil",
+    "primary": "Navigation principale"
+  },
+  "locale": {
+    "label": "Langue",
+    "fr": "FR",
+    "en": "EN",
+    "switchTo": "Passer en anglais"
+  },
+  "hero": {
+    "tag": "Gîte de montagne · Cirque de Cilaos · 1 200 m",
+    "title": "Dormir dans les Hauts, entre nuages et tamarins.",
+    "text": "Un gîte en bois ouvert sur le cirque, à deux pas des sentiers. Réservation directe, sans commission, acompte sécurisé en ligne.",
+    "ctaPrimary": "Voir les disponibilités",
+    "ctaSecondary": "Découvrir le gîte",
+    "illustrationAlt": "Illustration des montagnes du Cirque de Cilaos au lever du soleil"
+  },
+  "stats": {
+    "guests": "{count} voyageurs",
+    "guestsLabel": "capacité",
+    "rooms": "{count} chambres",
+    "roomsLabel": "dont une mezzanine",
+    "view": "180° de vue",
+    "viewLabel": "sur le cirque",
+    "price": "{price} la nuit",
+    "priceLabel": "hors ménage"
+  },
+  "gite": {
+    "eyebrow": "Le gîte",
+    "title": "Du bois, un poêle, et le Piton des Neiges au réveil.",
+    "text": "Un chalet de 65 m² tout en cryptoméria, isolé pour les nuits fraîches des Hauts, pensé pour quatre personnes qui veulent marcher le jour et se poser le soir.",
+    "cards": {
+      "chalet": {
+        "title": "Le chalet",
+        "text": "Deux chambres, un grand séjour sous charpente, un poêle à bois pour les soirées à 12 °C et une cuisine ouverte pour cuisiner les lentilles du village."
+      },
+      "terrasse": {
+        "title": "La terrasse",
+        "text": "Plein ouest, face au Piton des Neiges. Le café au lever de brume, l'apéro au coucher du soleil : c'est ici que se passent les deux meilleurs moments de la journée."
+      },
+      "jardin": {
+        "title": "Le jardin",
+        "text": "Tamarins des Hauts, fougères arborescentes et un carré d'herbes aromatiques. Un hamac, un barbecue, et le départ du sentier à trente mètres du portillon."
+      }
+    },
+    "amenitiesTitle": "Équipements",
+    "amenities": {
+      "wifi": "Wi-Fi fibre",
+      "parking": "Parking privé",
+      "stove": "Poêle à bois",
+      "kitchen": "Cuisine équipée",
+      "linen": "Linge fourni",
+      "pets": "Animaux acceptés"
+    },
+    "photoAlt": {
+      "chalet": "Le chalet en bois de La Couvrière",
+      "terrasse": "La terrasse face au Piton des Neiges",
+      "jardin": "Le jardin et les tamarins"
+    }
+  },
+  "availability": {
+    "eyebrow": "Disponibilités & réservation",
+    "title": "Choisissez vos dates, réglez l'acompte, c'est réservé.",
+    "text": "Le calendrier est mis à jour en temps réel. Séjour minimum : {minNights} nuits.",
+    "legendLabel": "Légende",
+    "legend": {
+      "free": "Libre",
+      "booked": "Réservé",
+      "past": "Passé",
+      "selected": "Sélection",
+      "range": "Votre séjour"
+    },
+    "prevMonth": "Mois précédent",
+    "nextMonth": "Mois suivant",
+    "weekdays": ["Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"],
+    "dayLabel": {
+      "free": "{date}, libre",
+      "booked": "{date}, réservé",
+      "past": "{date}, date passée",
+      "selected": "{date}, sélectionné",
+      "range": "{date}, dans votre séjour"
+    },
+    "loading": "Chargement des disponibilités…",
+    "loadError": "Impossible de charger les disponibilités. Réessayez dans un instant.",
+    "hint": {
+      "pickArrival": "Cliquez sur votre date d'arrivée.",
+      "pickDeparture": "Cliquez maintenant sur votre date de départ ({minNights} nuits minimum).",
+      "ready": "Vos dates sont prêtes. Vous pouvez régler l'acompte."
+    },
+    "summary": {
+      "title": "Votre séjour",
+      "arrival": "Arrivée",
+      "departure": "Départ",
+      "notSelected": "—",
+      "nights": "{count, plural, one {# nuit} other {# nuits}} × {price}",
+      "cleaning": "Ménage",
+      "total": "Total du séjour",
+      "deposit": "Acompte {percent} %",
+      "depositNow": "à régler maintenant",
+      "pay": "Payer l'acompte",
+      "payDisabled": "Choisissez vos dates pour continuer",
+      "secure": "Paiement sécurisé par carte. Le solde se règle à l'arrivée, annulation gratuite jusqu'à {days} jours avant.",
+      "clear": "Effacer les dates"
+    }
+  },
+  "hauts": {
+    "eyebrow": "Autour du gîte",
+    "title": "Les Hauts, version grandeur nature.",
+    "text": "Cilaos est le camp de base idéal : les grands sommets au départ de la porte, les thermes au village, et une table qui a du caractère.",
+    "cards": {
+      "piton": {
+        "title": "Piton des Neiges",
+        "distance": "Au départ du gîte",
+        "text": "Le toit de l'océan Indien (3 071 m). Départ au Bloc à 15 minutes à pied, nuit au gîte de la Caverne Dufour et lever de soleil au sommet."
+      },
+      "thermes": {
+        "title": "Thermes de Cilaos",
+        "distance": "15 min à pied",
+        "text": "Eaux chaudes naturellement gazeuses, bains, jets et massages. Le meilleur lendemain de randonnée qui existe."
+      },
+      "roche": {
+        "title": "Roche Merveilleuse",
+        "distance": "30 min à pied",
+        "text": "Le belvédère sur tout le cirque et le village. Sentier en forêt de cryptomérias, idéal au petit matin avant que la brume monte."
+      },
+      "lentilles": {
+        "title": "Lentilles & vin de Cilaos",
+        "distance": "Au village",
+        "text": "Les lentilles cultivées en terrasses, le vin de Cilaos, la broderie. Marché le dimanche matin, producteurs sur la route de Bras-Sec."
+      }
+    }
+  },
+  "infos": {
+    "eyebrow": "Infos pratiques",
+    "title": "Tout ce qu'il faut savoir avant de monter.",
+    "items": {
+      "checkin": {
+        "title": "Arrivée à partir de {time}",
+        "text": "Boîte à clés sécurisée, code envoyé la veille par SMS. Arrivée tardive possible."
+      },
+      "checkout": {
+        "title": "Départ avant {time}",
+        "text": "Laissez la vaisselle propre et les clés dans la boîte, on s'occupe du reste."
+      },
+      "deposit": {
+        "title": "Acompte {percent} % à la réservation",
+        "text": "Le solde se règle à l'arrivée, en espèces ou par carte. Taxe de séjour incluse."
+      },
+      "cancellation": {
+        "title": "Annulation gratuite jusqu'à {days} jours avant",
+        "text": "Acompte intégralement remboursé. Au-delà, l'acompte reste acquis sauf cas de force majeure."
+      }
+    }
+  },
+  "footer": {
+    "tagline": "Gîte de montagne dans le Cirque de Cilaos, à 1 200 m d'altitude.",
+    "contact": "Contact",
+    "navigation": "Navigation",
+    "legal": "Mentions légales",
+    "terms": "Conditions de réservation",
+    "rights": "© {year} La Couvrière. Tous droits réservés."
+  },
+  "reserve": {
+    "steps": {
+      "dates": "Dates",
+      "deposit": "Acompte",
+      "confirmation": "Confirmation"
+    },
+    "stepLabel": "Étape {current} sur {total}",
+    "title": "Plus qu'un acompte et c'est à vous.",
+    "text": "Le paiement se fait sur une page sécurisée Stripe. Nous ne stockons jamais votre carte.",
+    "backToDates": "Modifier les dates",
+    "summary": {
+      "title": "Votre séjour",
+      "arrival": "Arrivée",
+      "departure": "Départ",
+      "nights": "{count, plural, one {# nuit} other {# nuits}} × {price}",
+      "cleaning": "Ménage",
+      "total": "Total du séjour",
+      "deposit": "Acompte {percent} %",
+      "balance": "Solde à l'arrivée"
+    },
+    "form": {
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "terms": "J'ai lu et j'accepte les <link>conditions de réservation</link>.",
+      "pay": "Payer l'acompte de {amount}",
+      "paying": "Redirection vers le paiement…",
+      "required": "Ce champ est obligatoire.",
+      "invalidEmail": "Adresse e-mail invalide.",
+      "acceptTerms": "Merci d'accepter les conditions de réservation."
+    },
+    "cancelled": {
+      "title": "Paiement annulé",
+      "text": "Aucun montant n'a été débité. Vos dates ne sont pas réservées : vous pouvez réessayer quand vous voulez."
+    },
+    "errors": {
+      "invalidDates": "Ces dates ne sont pas valides. Revenez au calendrier pour les choisir à nouveau.",
+      "unavailable": "Désolé, ces dates viennent d'être réservées. Choisissez d'autres dates.",
+      "generic": "Une erreur est survenue. Réessayez dans un instant ou contactez-nous."
+    }
+  },
+  "confirmation": {
+    "eyebrow": "Confirmation",
+    "title": "C'est réservé. À bientôt dans les Hauts !",
+    "text": "Votre acompte a bien été reçu. Un e-mail de confirmation vient de partir à {email}.",
+    "pendingTitle": "Paiement en cours de validation",
+    "pendingText": "Nous attendons la confirmation de la banque. Vous recevrez un e-mail dès que la réservation sera validée.",
+    "reference": "Référence",
+    "arrival": "Arrivée",
+    "departure": "Départ",
+    "nights": "{count, plural, one {# nuit} other {# nuits}}",
+    "paid": "Acompte réglé",
+    "balance": "Solde à l'arrivée",
+    "next": "Et maintenant ?",
+    "nextItems": [
+      "Vous recevrez le code de la boîte à clés par SMS la veille de votre arrivée.",
+      "Arrivée à partir de {checkIn}, départ avant {checkOut}.",
+      "Besoin de modifier ? Répondez simplement à l'e-mail de confirmation."
+    ],
+    "backHome": "Retour à l'accueil",
+    "notFound": "Nous ne retrouvons pas cette réservation. Si vous avez été débité, contactez-nous avec votre e-mail de paiement."
+  },
+  "admin": {
+    "title": "Administration",
+    "login": {
+      "title": "Accès propriétaire",
+      "password": "Mot de passe",
+      "submit": "Se connecter",
+      "error": "Mot de passe incorrect."
+    },
+    "logout": "Se déconnecter",
+    "bookings": {
+      "title": "Réservations",
+      "empty": "Aucune réservation pour le moment.",
+      "guest": "Voyageur",
+      "dates": "Dates",
+      "nights": "Nuits",
+      "total": "Total",
+      "deposit": "Acompte",
+      "status": "Statut",
+      "created": "Créée le",
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "statuses": {
+        "pending": "En attente",
+        "confirmed": "Confirmée",
+        "cancelled": "Annulée"
+      }
+    },
+    "blocked": {
+      "title": "Dates bloquées",
+      "text": "Bloquez des nuits pour les travaux, la famille ou les réservations hors ligne. La date de fin est exclue (jour de départ).",
+      "start": "Du (première nuit)",
+      "end": "Au (jour de départ)",
+      "reason": "Motif",
+      "add": "Bloquer ces dates",
+      "remove": "Débloquer",
+      "empty": "Aucune date bloquée.",
+      "error": "Dates invalides : la fin doit être après le début."
+    }
+  },
+  "legal": {
+    "title": "Mentions légales",
+    "sections": [
+      {
+        "title": "Éditeur du site",
+        "text": "La Couvrière — [Nom du propriétaire], 12 chemin des Tamarins, 97413 Cilaos, La Réunion. Téléphone : +262 692 00 00 00. E-mail : contact@lacouvriere.re. SIRET : [à compléter]."
+      },
+      {
+        "title": "Hébergement",
+        "text": "Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis."
+      },
+      {
+        "title": "Données personnelles",
+        "text": "Les informations collectées lors d'une réservation (nom, e-mail, téléphone, dates) servent uniquement à gérer votre séjour. Elles ne sont jamais revendues. Le paiement est traité par Stripe ; nous ne conservons aucune donnée bancaire. Vous pouvez demander la suppression de vos données à tout moment par e-mail."
+      }
+    ]
+  },
+  "terms": {
+    "title": "Conditions de réservation",
+    "sections": [
+      {
+        "title": "Réservation et acompte",
+        "text": "La réservation est ferme à réception d'un acompte de {percent} % du montant total du séjour, réglé par carte bancaire via Stripe. Le solde est à régler à l'arrivée."
+      },
+      {
+        "title": "Annulation",
+        "text": "Annulation gratuite jusqu'à {days} jours avant la date d'arrivée : l'acompte est intégralement remboursé. Passé ce délai, l'acompte reste acquis, sauf cas de force majeure dûment justifié."
+      },
+      {
+        "title": "Séjour",
+        "text": "Arrivée à partir de {checkIn}, départ avant {checkOut}. Capacité maximale : {guests} personnes. Les animaux sont acceptés sur demande. Le gîte est non-fumeur."
+      },
+      {
+        "title": "Responsabilité",
+        "text": "Le locataire est responsable des dégradations causées pendant le séjour. Une attestation d'assurance villégiature pourra être demandée."
+      }
+    ]
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "text": "Cette page a dû partir en randonnée.",
+    "back": "Retour à l'accueil"
+  }
+}
