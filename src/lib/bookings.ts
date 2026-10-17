@@ -1,5 +1,6 @@
 import "server-only";
 import { sendConfirmationEmail } from "./email";
+import { stripe } from "./stripe";
 import { supabaseAdmin, type BookingRow } from "./supabase";
 
 export async function getBookingBySession(sessionId: string): Promise<BookingRow | null> {
@@ -27,9 +28,11 @@ export async function confirmBooking(sessionId: string): Promise<BookingRow | nu
     .maybeSingle<BookingRow>();
 
   if (error) {
-    // 23P01 = violation de la contrainte d'exclusion : double réservation sur les mêmes nuits.
+    // 23P01 = contrainte d'exclusion : les nuits ont été confirmées par une autre réservation
+    // entre-temps. On annule et on rembourse l'acompte automatiquement.
     if (error.code === "23P01") {
-      console.error(`[bookings] Chevauchement détecté pour la session ${sessionId}. À rembourser manuellement.`);
+      console.error(`[bookings] Chevauchement pour la session ${sessionId} : annulation + remboursement.`);
+      await refundAndCancel(sessionId);
       return getBookingBySession(sessionId);
     }
     throw error;
@@ -42,6 +45,16 @@ export async function confirmBooking(sessionId: string): Promise<BookingRow | nu
     console.error("[bookings] Échec de l'envoi de l'e-mail :", err);
   }
   return data;
+}
+
+async function refundAndCancel(sessionId: string): Promise<void> {
+  const session = await stripe().checkout.sessions.retrieve(sessionId);
+  const paymentIntent =
+    typeof session.payment_intent === "string" ? session.payment_intent : session.payment_intent?.id;
+  if (paymentIntent) {
+    await stripe().refunds.create({ payment_intent: paymentIntent, reason: "duplicate" });
+  }
+  await cancelPendingBooking(sessionId);
 }
 
 export async function cancelPendingBooking(sessionId: string): Promise<void> {

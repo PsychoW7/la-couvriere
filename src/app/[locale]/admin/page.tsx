@@ -87,7 +87,7 @@ export default async function AdminPage({
             />
             {error && (
               <p id="login-error" role="alert" className="mt-2 text-sm text-coral-dark">
-                {t("login.error")}
+                {error === "locked" ? t("login.locked") : t("login.error")}
               </p>
             )}
             <button type="submit" className="btn-forest mt-6 w-full">

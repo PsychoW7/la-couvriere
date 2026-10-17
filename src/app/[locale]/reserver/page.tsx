@@ -9,8 +9,9 @@ import { ReserveSummary } from "@/components/ReserveSummary";
 import { BookingForm } from "@/components/BookingForm";
 import { ChevronLeftIcon } from "@/components/Icons";
 import { getUnavailableRanges } from "@/lib/availability";
+import { bookingContext } from "@/lib/booking-rules";
 import { validateRange } from "@/lib/calendar";
-import { isISODate, todayISO } from "@/lib/dates";
+import { isISODate } from "@/lib/dates";
 import { computeQuote } from "@/lib/pricing";
 
 export const dynamic = "force-dynamic";
@@ -45,7 +46,7 @@ export default async function ReservePage({
   } else {
     try {
       const booked = await getUnavailableRanges();
-      const check = validateRange(from, to, { booked, minNights: gite.minNights, today: todayISO() });
+      const check = validateRange(from, to, bookingContext(booked));
       if (!check.ok) {
         error = check.reason === "booked" ? t("errors.unavailable") : t("errors.invalidDates");
       } else {

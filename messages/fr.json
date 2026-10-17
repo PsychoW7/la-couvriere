@@ -242,7 +242,8 @@
       "title": "Accès propriétaire",
       "password": "Mot de passe",
       "submit": "Se connecter",
-      "error": "Mot de passe incorrect."
+      "error": "Mot de passe incorrect.",
+      "locked": "Trop de tentatives. Réessayez dans 15 minutes."
     },
     "logout": "Se déconnecter",
     "bookings": {

@@ -44,3 +44,55 @@ create index if not exists blocked_dates_idx on blocked_dates (start_date, end_d
 -- RLS : tout passe par la clé service_role côté serveur ; aucun accès anonyme.
 alter table bookings enable row level security;
 alter table blocked_dates enable row level security;
+
+-- Création atomique d'une réservation "pending" : un verrou transactionnel
+-- sérialise les créations et la vérification de chevauchement est faite
+-- dans la même transaction (bookings confirmées, pending récentes, dates bloquées).
+create or replace function create_pending_booking(
+  p_start date,
+  p_end date,
+  p_guest_name text,
+  p_email text,
+  p_phone text,
+  p_nights integer,
+  p_total_cents integer,
+  p_deposit_cents integer,
+  p_locale text,
+  p_hold_minutes integer default 30
+) returns bookings
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_range daterange := daterange(p_start, p_end, '[)');
+  v_booking bookings;
+begin
+  perform pg_advisory_xact_lock(hashtext('bookings:create'));
+
+  if exists (
+    select 1 from bookings
+    where daterange(start_date, end_date, '[)') && v_range
+      and (
+        status = 'confirmed'
+        or (status = 'pending' and created_at > now() - make_interval(mins => p_hold_minutes))
+      )
+  ) or exists (
+    select 1 from blocked_dates where daterange(start_date, end_date, '[)') && v_range
+  ) then
+    raise exception 'unavailable' using errcode = 'P0001';
+  end if;
+
+  insert into bookings (
+    start_date, end_date, guest_name, email, phone,
+    nights, total_cents, deposit_cents, status, locale
+  ) values (
+    p_start, p_end, p_guest_name, p_email, p_phone,
+    p_nights, p_total_cents, p_deposit_cents, 'pending', p_locale
+  ) returning * into v_booking;
+
+  return v_booking;
+end;
+$$;
+
+revoke all on function create_pending_booking(date, date, text, text, text, integer, integer, integer, text, integer) from public, anon, authenticated;

@@ -242,7 +242,8 @@
       "title": "Owner access",
       "password": "Password",
       "submit": "Sign in",
-      "error": "Incorrect password."
+      "error": "Incorrect password.",
+      "locked": "Too many attempts. Try again in 15 minutes."
     },
     "logout": "Sign out",
     "bookings": {

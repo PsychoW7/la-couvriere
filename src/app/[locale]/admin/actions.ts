@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import {
-  checkPassword,
+  attemptLogin,
   clearAdminSession,
   isAdminAuthenticated,
   setAdminSession,
@@ -23,8 +23,9 @@ async function requireAdmin() {
 
 export async function loginAction(fd: FormData) {
   const locale = localeOf(fd);
-  const password = String(fd.get("password") ?? "");
-  if (!checkPassword(password)) redirect(`/${locale}/admin?error=1`);
+  const password = String(fd.get("password") ?? "").slice(0, 200);
+  const result = await attemptLogin(password);
+  if (result !== "ok") redirect(`/${locale}/admin?error=${result}`);
   await setAdminSession();
   redirect(`/${locale}/admin`);
 }

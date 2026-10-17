@@ -15,6 +15,10 @@ export interface CalendarContext {
   booked: DateRange[];
   minNights: number;
   today: ISODate;
+  /** Durée maximale d'un séjour (nuits). */
+  maxNights?: number;
+  /** Dernier jour de départ accepté (horizon de réservation). */
+  lastDate?: ISODate;
 }
 
 export type DayState = "past" | "booked" | "free" | "selected" | "range";
@@ -96,11 +100,15 @@ export function validateRange(
   start: ISODate,
   end: ISODate,
   ctx: CalendarContext,
-): { ok: true; nights: number } | { ok: false; reason: "past" | "order" | "min" | "booked" } {
+):
+  | { ok: true; nights: number }
+  | { ok: false; reason: "past" | "order" | "min" | "max" | "horizon" | "booked" } {
   if (start < ctx.today) return { ok: false, reason: "past" };
   if (end <= start) return { ok: false, reason: "order" };
   const nights = nightsBetween(start, end);
   if (nights < ctx.minNights) return { ok: false, reason: "min" };
+  if (ctx.maxNights !== undefined && nights > ctx.maxNights) return { ok: false, reason: "max" };
+  if (ctx.lastDate !== undefined && end > ctx.lastDate) return { ok: false, reason: "horizon" };
   if (hasBookedNight(start, end, ctx.booked)) return { ok: false, reason: "booked" };
   return { ok: true, nights };
 }

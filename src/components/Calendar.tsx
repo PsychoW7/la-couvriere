@@ -9,6 +9,7 @@ import {
   type DayState,
   type Selection,
 } from "@/lib/calendar";
+import { bookingHorizonEnd } from "@/lib/booking-rules";
 import { monthOf, parseISO, shiftMonth, type ISODate } from "@/lib/dates";
 import { ChevronLeftIcon, ChevronRightIcon } from "./Icons";
 
@@ -46,6 +47,9 @@ export function Calendar({ booked, selection, onSelect, today, minNights }: Prop
   const canGoBack =
     view.year > todayMonth.year ||
     (view.year === todayMonth.year && view.month > todayMonth.month);
+  const lastMonth = monthOf(bookingHorizonEnd(today));
+  const canGoForward =
+    view.year < lastMonth.year || (view.year === lastMonth.year && view.month < lastMonth.month);
   const weekdays = t.raw("weekdays") as string[];
 
   return (
@@ -88,8 +92,9 @@ export function Calendar({ booked, selection, onSelect, today, minNights }: Prop
           </div>
           <button
             type="button"
-            className="grid size-11 place-items-center rounded-pill text-deep ring-1 ring-deep/10 transition-colors hover:bg-surface"
+            className="grid size-11 place-items-center rounded-pill text-deep ring-1 ring-deep/10 transition-colors hover:bg-surface disabled:cursor-not-allowed disabled:opacity-30"
             onClick={() => setView((v) => shiftMonth(v.year, v.month, 1))}
+            disabled={!canGoForward}
             aria-label={t("nextMonth")}
           >
             <ChevronRightIcon />

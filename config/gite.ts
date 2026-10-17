@@ -10,6 +10,8 @@ export const gite = {
   cleaningFeeCents: 4000,
   depositPercent: 30,
   minNights: 2,
+  maxNights: 30,
+  bookingHorizonMonths: 18,
 
   checkInTime: "16:00",
   checkOutTime: "11:00",

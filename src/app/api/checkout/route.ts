@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { gite } from "../../../../config/gite";
 import { getUnavailableRanges, PENDING_HOLD_MINUTES } from "@/lib/availability";
+import { bookingContext } from "@/lib/booking-rules";
 import { validateRange } from "@/lib/calendar";
-import { isISODate, parseISO, todayISO } from "@/lib/dates";
+import { isISODate, parseISO } from "@/lib/dates";
 import { computeQuote } from "@/lib/pricing";
 import { siteUrl, stripe } from "@/lib/stripe";
 import { supabaseAdmin, type BookingRow } from "@/lib/supabase";
@@ -11,6 +12,8 @@ import { routing } from "@/i18n/routing";
 export const dynamic = "force-dynamic";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/** Nombre max de réservations "pending" simultanées pour une même adresse e-mail. */
+const MAX_PENDING_PER_EMAIL = 3;
 
 interface Body {
   from?: unknown;
@@ -59,7 +62,7 @@ export async function POST(req: Request) {
 
   try {
     const booked = await getUnavailableRanges();
-    const check = validateRange(from, to, { booked, minNights: gite.minNights, today: todayISO() });
+    const check = validateRange(from, to, bookingContext(booked));
     if (!check.ok) {
       return NextResponse.json(
         { error: check.reason === "booked" ? "unavailable" : "invalid_dates" },
@@ -67,25 +70,41 @@ export async function POST(req: Request) {
       );
     }
 
-    const quote = computeQuote(check.nights);
     const db = supabaseAdmin();
-    const { data: booking, error: insertError } = await db
+    const holdSince = new Date(Date.now() - PENDING_HOLD_MINUTES * 60_000).toISOString();
+    const { count: pendingCount, error: countError } = await db
       .from("bookings")
-      .insert({
-        start_date: from,
-        end_date: to,
-        guest_name: `${firstName} ${lastName}`,
-        email,
-        phone,
-        nights: quote.nights,
-        total_cents: quote.totalCents,
-        deposit_cents: quote.depositCents,
-        status: "pending",
-        locale,
+      .select("id", { count: "exact", head: true })
+      .eq("email", email.toLowerCase())
+      .eq("status", "pending")
+      .gte("created_at", holdSince);
+    if (countError) throw countError;
+    if ((pendingCount ?? 0) >= MAX_PENDING_PER_EMAIL) {
+      return NextResponse.json({ error: "too_many_pending" }, { status: 429 });
+    }
+
+    const quote = computeQuote(check.nights);
+    const { data: booking, error: insertError } = await db
+      .rpc("create_pending_booking", {
+        p_start: from,
+        p_end: to,
+        p_guest_name: `${firstName} ${lastName}`,
+        p_email: email.toLowerCase(),
+        p_phone: phone,
+        p_nights: quote.nights,
+        p_total_cents: quote.totalCents,
+        p_deposit_cents: quote.depositCents,
+        p_locale: locale,
+        p_hold_minutes: PENDING_HOLD_MINUTES,
       })
-      .select("*")
       .single<BookingRow>();
-    if (insertError || !booking) throw insertError ?? new Error("insert_failed");
+    if (insertError) {
+      if (insertError.message.includes("unavailable")) {
+        return NextResponse.json({ error: "unavailable" }, { status: 409 });
+      }
+      throw insertError;
+    }
+    if (!booking) throw new Error("insert_failed");
 
     const dateFmt = new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "fr-FR", {
       day: "numeric",

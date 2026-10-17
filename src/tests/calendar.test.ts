@@ -154,6 +154,13 @@ describe("validateRange", () => {
     expect(validateRange("2026-10-23", "2026-10-26", ctx)).toEqual({ ok: false, reason: "booked" });
     expect(validateRange("2026-10-20", "2026-10-24", ctx)).toEqual({ ok: true, nights: 4 });
   });
+
+  it("applique la durée maximale et l'horizon de réservation", () => {
+    const strict = { ...ctx, maxNights: 3, lastDate: "2026-12-31" };
+    expect(validateRange("2026-11-10", "2026-11-14", strict)).toEqual({ ok: false, reason: "max" });
+    expect(validateRange("2026-12-30", "2027-01-02", strict)).toEqual({ ok: false, reason: "horizon" });
+    expect(validateRange("2026-12-28", "2026-12-31", strict)).toEqual({ ok: true, nights: 3 });
+  });
 });
 
 describe("getMonthGrid", () => {

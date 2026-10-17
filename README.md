@@ -36,7 +36,9 @@ Sans Supabase configuré, le calendrier s'affiche vide en développement (toutes
    - `Project URL` → `NEXT_PUBLIC_SUPABASE_URL`
    - `service_role` (secret) → `SUPABASE_SERVICE_ROLE_KEY`
 
-> Les dates sont stockées au format `start_date` (première nuit, incluse) / `end_date` (jour de départ, exclu). Une réservation `pending` bloque les dates pendant 30 min (durée de la session Stripe), puis expire via webhook.
+> Les dates sont stockées au format `start_date` (première nuit, incluse) / `end_date` (jour de départ, exclu). Une réservation `pending` bloque les dates pendant 30 min (durée de la session Stripe), puis expire via webhook. La création passe par la fonction SQL `create_pending_booking` (verrou transactionnel + vérification de chevauchement) : deux clients ne peuvent pas obtenir les mêmes nuits en même temps. Si malgré tout un paiement arrivait sur des nuits déjà confirmées, la contrainte d'exclusion le bloque et l'acompte est **remboursé automatiquement** via Stripe.
+
+Garde-fous : séjour de `minNights` à `maxNights` nuits, horizon de `bookingHorizonMonths` mois (`config/gite.ts`), au plus 3 réservations en attente par e-mail.
 
 ## 3. Stripe
 
@@ -67,7 +69,8 @@ Le gabarit (FR/EN) est dans `src/lib/email.ts`.
 
 - URL : `/fr/admin` (ou `/en/admin`).
 - `ADMIN_PASSWORD` : mot de passe de connexion.
-- `ADMIN_SESSION_SECRET` : chaîne aléatoire longue (`openssl rand -hex 32`) qui signe le cookie de session (7 jours).
+- `ADMIN_SESSION_SECRET` : chaîne aléatoire longue (`openssl rand -hex 32`) qui signe le cookie de session (7 jours, expiration vérifiée côté serveur ; changer le mot de passe ou le secret révoque toutes les sessions).
+- Protection force brute : 5 échecs par IP → verrouillage 15 min (limiteur en mémoire par instance ; sur Vercel, ajoutez le WAF ou une règle de rate-limit pour une garantie globale).
 - Fonctions : liste des réservations (confirmer / annuler), bloquer / débloquer des dates.
 
 ## 6. Déploiement Vercel
