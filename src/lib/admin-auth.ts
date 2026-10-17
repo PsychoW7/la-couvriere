@@ -7,12 +7,29 @@ export const ADMIN_COOKIE = "lc_admin";
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
 
 const loginLimiter = createRateLimiter(5, 15 * 60_000);
-// Au-delà de ce seuil global d'échecs, chaque échec est fortement ralenti, mais un
-// mot de passe correct passe toujours : un attaquant ne peut pas bloquer le propriétaire.
-const globalLoginLimiter = createRateLimiter(30, 15 * 60_000);
+// Plafond global bloquant (fail-closed). Seules les IP de ADMIN_ALLOWED_IPS y échappent,
+// ce qui permet au propriétaire de se connecter même pendant une attaque.
+const globalLoginLimiter = createRateLimiter(100, 15 * 60_000);
 const GLOBAL_KEY = "global";
-const FAIL_DELAY_MS = 400;
-const FAIL_DELAY_UNDER_ATTACK_MS = 3000;
+const ATTEMPT_DELAY_MS = 400;
+const ATTEMPT_DELAY_UNDER_ATTACK_MS = 3000;
+
+// Les tentatives sont sérialisées : le délai ne peut pas être contourné en parallélisant.
+let queue: Promise<unknown> = Promise.resolve();
+function serialize<T>(task: () => Promise<T>): Promise<T> {
+  const run = queue.then(task, task);
+  queue = run.catch(() => undefined);
+  return run;
+}
+
+function allowedIps(): Set<string> {
+  return new Set(
+    (process.env.ADMIN_ALLOWED_IPS ?? "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean),
+  );
+}
 
 function secret(): string {
   const s = process.env.ADMIN_SESSION_SECRET;
@@ -60,20 +77,29 @@ async function clientKey(): Promise<string> {
 
 export async function attemptLogin(candidate: string): Promise<"ok" | "invalid" | "locked"> {
   const key = await clientKey();
-  if (loginLimiter.isBlocked(key)) return "locked";
+  return serialize(async () => {
+    const trusted = allowedIps().has(key);
+    const underAttack = globalLoginLimiter.isBlocked(GLOBAL_KEY);
+    if (loginLimiter.isBlocked(key) || (underAttack && !trusted)) return "locked";
 
-  const expected = process.env.ADMIN_PASSWORD;
-  const ok = !!expected && expected.length >= 8 && safeEqual(candidate, expected);
-  if (ok) {
-    loginLimiter.reset(key);
-    return "ok";
-  }
+    // Compter avant de comparer : une rafale ne peut pas dépasser la limite.
+    loginLimiter.hit(key);
+    if (!trusted) globalLoginLimiter.hit(GLOBAL_KEY);
 
-  loginLimiter.hit(key);
-  globalLoginLimiter.hit(GLOBAL_KEY);
-  const delay = globalLoginLimiter.isBlocked(GLOBAL_KEY) ? FAIL_DELAY_UNDER_ATTACK_MS : FAIL_DELAY_MS;
-  await new Promise((r) => setTimeout(r, delay));
-  return loginLimiter.isBlocked(key) ? "locked" : "invalid";
+    const expected = process.env.ADMIN_PASSWORD;
+    const ok = !!expected && expected.length >= 8 && safeEqual(candidate, expected);
+
+    // Même délai en succès et en échec : le temps de réponse ne révèle rien.
+    await new Promise((r) =>
+      setTimeout(r, underAttack ? ATTEMPT_DELAY_UNDER_ATTACK_MS : ATTEMPT_DELAY_MS),
+    );
+
+    if (ok) {
+      loginLimiter.reset(key);
+      return "ok";
+    }
+    return loginLimiter.isBlocked(key) ? "locked" : "invalid";
+  });
 }
 
 export async function isAdminAuthenticated(): Promise<boolean> {

@@ -70,7 +70,10 @@ Le gabarit (FR/EN) est dans `src/lib/email.ts`.
 - URL : `/fr/admin` (ou `/en/admin`).
 - `ADMIN_PASSWORD` : mot de passe de connexion.
 - `ADMIN_SESSION_SECRET` : chaîne aléatoire longue (`openssl rand -hex 32`) qui signe le cookie de session (7 jours, expiration vérifiée côté serveur ; changer le mot de passe ou le secret révoque toutes les sessions).
-- Protection force brute : 5 échecs par IP (IP lue dans `x-vercel-forwarded-for` / `x-real-ip`, posés par la plateforme) → verrouillage 15 min de cette IP ; au-delà de 30 échecs au total, chaque échec est ralenti à 3 s, sans jamais bloquer un mot de passe correct. Limiteur en mémoire par instance : sur Vercel, ajoutez le WAF ou une règle de rate-limit pour une garantie globale, et préférez un mot de passe long et aléatoire.
+- Protection force brute (IP lue dans `x-vercel-forwarded-for` / `x-real-ip`, posés par la plateforme, tentatives sérialisées avec délai constant) :
+  - 5 échecs par IP → cette IP est verrouillée 15 min ;
+  - 100 tentatives au total en 15 min → verrouillage global 15 min, **sauf** pour les IP listées dans `ADMIN_ALLOWED_IPS` (mettez-y votre IP fixe pour ne jamais être bloqué par une attaque).
+  - Limiteur en mémoire par instance : sur Vercel, ajoutez le WAF ou une règle de rate-limit pour une garantie globale, et utilisez un mot de passe long et aléatoire.
 - Fonctions : liste des réservations (confirmer / annuler), bloquer / débloquer des dates.
 
 ## 6. Déploiement Vercel
