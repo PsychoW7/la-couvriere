@@ -7,9 +7,12 @@ export const ADMIN_COOKIE = "lc_admin";
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
 
 const loginLimiter = createRateLimiter(5, 15 * 60_000);
-// Plafond global, indépendant de l'IP : rend inutile la rotation d'adresses.
+// Au-delà de ce seuil global d'échecs, chaque échec est fortement ralenti, mais un
+// mot de passe correct passe toujours : un attaquant ne peut pas bloquer le propriétaire.
 const globalLoginLimiter = createRateLimiter(30, 15 * 60_000);
 const GLOBAL_KEY = "global";
+const FAIL_DELAY_MS = 400;
+const FAIL_DELAY_UNDER_ATTACK_MS = 3000;
 
 function secret(): string {
   const s = process.env.ADMIN_SESSION_SECRET;
@@ -57,20 +60,20 @@ async function clientKey(): Promise<string> {
 
 export async function attemptLogin(candidate: string): Promise<"ok" | "invalid" | "locked"> {
   const key = await clientKey();
-  if (loginLimiter.isBlocked(key) || globalLoginLimiter.isBlocked(GLOBAL_KEY)) return "locked";
+  if (loginLimiter.isBlocked(key)) return "locked";
 
   const expected = process.env.ADMIN_PASSWORD;
   const ok = !!expected && expected.length >= 8 && safeEqual(candidate, expected);
-  if (!ok) {
-    loginLimiter.hit(key);
-    globalLoginLimiter.hit(GLOBAL_KEY);
-    await new Promise((r) => setTimeout(r, 400));
-    return loginLimiter.isBlocked(key) || globalLoginLimiter.isBlocked(GLOBAL_KEY)
-      ? "locked"
-      : "invalid";
+  if (ok) {
+    loginLimiter.reset(key);
+    return "ok";
   }
-  loginLimiter.reset(key);
-  return "ok";
+
+  loginLimiter.hit(key);
+  globalLoginLimiter.hit(GLOBAL_KEY);
+  const delay = globalLoginLimiter.isBlocked(GLOBAL_KEY) ? FAIL_DELAY_UNDER_ATTACK_MS : FAIL_DELAY_MS;
+  await new Promise((r) => setTimeout(r, delay));
+  return loginLimiter.isBlocked(key) ? "locked" : "invalid";
 }
 
 export async function isAdminAuthenticated(): Promise<boolean> {
