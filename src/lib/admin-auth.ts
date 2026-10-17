@@ -7,6 +7,9 @@ export const ADMIN_COOKIE = "lc_admin";
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
 
 const loginLimiter = createRateLimiter(5, 15 * 60_000);
+// Plafond global, indépendant de l'IP : rend inutile la rotation d'adresses.
+const globalLoginLimiter = createRateLimiter(30, 15 * 60_000);
+const GLOBAL_KEY = "global";
 
 function secret(): string {
   const s = process.env.ADMIN_SESSION_SECRET;
@@ -43,25 +46,28 @@ function verifyToken(token: string): boolean {
   return safeEqual(sig, sign(expiresAt));
 }
 
-export async function clientKey(): Promise<string> {
+/**
+ * IP cliente telle que posée par la plateforme (Vercel écrase ces en-têtes,
+ * le client ne peut pas les forger). On n'utilise jamais X-Forwarded-For, spoofable.
+ */
+async function clientKey(): Promise<string> {
   const h = await headers();
-  return (
-    h.get("x-real-ip") ??
-    h.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    "unknown"
-  );
+  return h.get("x-vercel-forwarded-for") ?? h.get("x-real-ip") ?? "unknown";
 }
 
 export async function attemptLogin(candidate: string): Promise<"ok" | "invalid" | "locked"> {
   const key = await clientKey();
-  if (loginLimiter.isBlocked(key)) return "locked";
+  if (loginLimiter.isBlocked(key) || globalLoginLimiter.isBlocked(GLOBAL_KEY)) return "locked";
 
   const expected = process.env.ADMIN_PASSWORD;
   const ok = !!expected && expected.length >= 8 && safeEqual(candidate, expected);
   if (!ok) {
     loginLimiter.hit(key);
+    globalLoginLimiter.hit(GLOBAL_KEY);
     await new Promise((r) => setTimeout(r, 400));
-    return loginLimiter.isBlocked(key) ? "locked" : "invalid";
+    return loginLimiter.isBlocked(key) || globalLoginLimiter.isBlocked(GLOBAL_KEY)
+      ? "locked"
+      : "invalid";
   }
   loginLimiter.reset(key);
   return "ok";
