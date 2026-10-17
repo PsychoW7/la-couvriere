@@ -7,18 +7,24 @@ export const ADMIN_COOKIE = "lc_admin";
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
 
 const loginLimiter = createRateLimiter(5, 15 * 60_000);
-// Plafond global bloquant (fail-closed). Seules les IP de ADMIN_ALLOWED_IPS y échappent,
-// ce qui permet au propriétaire de se connecter même pendant une attaque.
-const globalLoginLimiter = createRateLimiter(100, 15 * 60_000);
+// Plafond global sur les échecs. Si ADMIN_ALLOWED_IPS est renseigné, il devient bloquant
+// pour les autres IP (le propriétaire garde un accès) ; sinon il se contente de ralentir
+// fortement les tentatives, sans jamais refuser un mot de passe correct.
+const globalFailureLimiter = createRateLimiter(100, 15 * 60_000);
 const GLOBAL_KEY = "global";
 const ATTEMPT_DELAY_MS = 400;
 const ATTEMPT_DELAY_UNDER_ATTACK_MS = 3000;
 
-// Les tentatives sont sérialisées : le délai ne peut pas être contourné en parallélisant.
-let queue: Promise<unknown> = Promise.resolve();
-function serialize<T>(task: () => Promise<T>): Promise<T> {
-  const run = queue.then(task, task);
-  queue = run.catch(() => undefined);
+// Tentatives sérialisées par IP : le délai ne se parallélise pas, et le trafic
+// d'un attaquant ne retarde pas la connexion du propriétaire.
+const queues = new Map<string, Promise<unknown>>();
+function serialize<T>(key: string, task: () => Promise<T>): Promise<T> {
+  const prev = queues.get(key) ?? Promise.resolve();
+  const run = prev.then(task, task);
+  const settled = run.catch(() => undefined).then(() => {
+    if (queues.get(key) === settled) queues.delete(key);
+  });
+  queues.set(key, settled);
   return run;
 }
 
@@ -77,17 +83,19 @@ async function clientKey(): Promise<string> {
 
 export async function attemptLogin(candidate: string): Promise<"ok" | "invalid" | "locked"> {
   const key = await clientKey();
-  return serialize(async () => {
-    const trusted = allowedIps().has(key);
-    const underAttack = globalLoginLimiter.isBlocked(GLOBAL_KEY);
-    if (loginLimiter.isBlocked(key) || (underAttack && !trusted)) return "locked";
+  return serialize(key, async () => {
+    const allowlist = allowedIps();
+    const trusted = allowlist.has(key);
+    const underAttack = globalFailureLimiter.isBlocked(GLOBAL_KEY);
+    const globalLockApplies = underAttack && allowlist.size > 0 && !trusted;
+    if (loginLimiter.isBlocked(key) || globalLockApplies) return "locked";
 
-    // Compter avant de comparer : une rafale ne peut pas dépasser la limite.
+    // Compter avant de comparer : une rafale ne peut pas dépasser la limite par IP.
     loginLimiter.hit(key);
-    if (!trusted) globalLoginLimiter.hit(GLOBAL_KEY);
 
     const expected = process.env.ADMIN_PASSWORD;
     const ok = !!expected && expected.length >= 8 && safeEqual(candidate, expected);
+    if (!ok && !trusted) globalFailureLimiter.hit(GLOBAL_KEY);
 
     // Même délai en succès et en échec : le temps de réponse ne révèle rien.
     await new Promise((r) =>
